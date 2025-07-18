@@ -1,0 +1,15 @@
+#PROV - PHPMYADMIN Build
+
+FROM phpmyadmin/phpmyadmin
+
+USER root
+
+COPY ./localenv/certs/apache.crt /etc/apache2/ssl/apache.crt
+COPY ./localenv/certs/apache.key /etc/apache2/ssl/apache.key
+COPY ./localenv/ssl/admin-ssl.conf /etc/apache2/sites-available/admin-ssl.conf
+
+RUN a2enmod ssl && \
+    a2ensite admin-ssl && \
+    echo "Listen 8443" >> /etc/apache2/ports.conf
+
+CMD ["apache2ctl", "-D", "FOREGROUND"]

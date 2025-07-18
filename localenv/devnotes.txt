@@ -1,0 +1,26 @@
+---------DOCKERFILE (for PHP environment)
+# Use the official PHP image as the base image
+#FROM php:8.4-apache 
+
+# Install the mysqli extension
+#RUN docker-php-ext-install mysqli 
+
+# Expose port 80 (or the port your application uses)
+#EXPOSE 80 
+
+---------DOCKERFILE (for MYSQL database environment)
+# Use the latest MySQL image as the base
+FROM mysql:latest
+
+# Optional: Customize environment variables or configuration
+ENV MYSQL_ROOT_PASSWORD=secret
+
+
+---------TERMINAL
+-build environment
+docker build -t php:8.4-apache-mysqli . (name it whatever instead of php:8.4-apache-mysqli)
+
+-build phpMyAdmin
+
+-build database
+

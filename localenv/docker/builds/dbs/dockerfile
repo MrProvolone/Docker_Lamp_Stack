@@ -1,0 +1,7 @@
+#PROV - MySql DBS Build
+
+# Use the latest MySQL image as the base
+FROM mysql:latest
+
+# Optional: Customize environment variables or configuration
+#ENV MYSQL_ROOT_PASSWORD=secret

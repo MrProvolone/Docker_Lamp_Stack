@@ -1,0 +1,49 @@
+services:
+    webserver: 
+        build:
+            context: .
+            dockerfile: localenv/docker/builds/srv/dockerfile
+        image: mrprovolone/prov-php:server
+        container_name: lamp_srv
+        depends_on:
+            - database
+        networks:
+            - lamp-docker
+        ports:
+            - 80:80
+            - 443:443
+        volumes:
+            - ./:/var/www/html
+    phpmyadmin:
+        build:
+            context: .
+            dockerfile: localenv/docker/builds/adm/dockerfile
+        image: mrprovolone/prov-php:admin
+        container_name: lamp_adm
+        networks:
+            - lamp-docker
+        ports:
+            - 8443:8443
+        environment:
+            PMA_HOST: database
+            PMA_PORT: 3306
+    database:
+        build:
+            context: .
+            dockerfile: localenv/docker/builds/dbs/dockerfile
+        image: mrprovolone/prov-php:database
+        container_name: lamp_dbs
+        networks:
+            - lamp-docker
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: test
+            MYSQL_USER: test
+            MYSQL_PASSWORD: test
+        ports:
+            - 3306:3306
+        volumes: 
+            - "./db:/docker-entrypoint-initdb.d"
+networks:
+    lamp-docker:
+        driver: bridge

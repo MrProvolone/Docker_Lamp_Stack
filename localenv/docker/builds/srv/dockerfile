@@ -1,0 +1,14 @@
+#PROV - PHP Build
+
+# Use the official PHP image as the base image
+FROM php:8.4-apache 
+
+COPY ./localenv/certs/apache.crt /etc/apache2/ssl/apache.crt
+COPY ./localenv/certs/apache.key /etc/apache2/ssl/apache.key
+COPY localenv/ssl/server-ssl.conf /etc/apache2/sites-available/server-ssl.conf
+
+#RUN docker-php-ext-install mysqli 
+RUN docker-php-ext-install pdo pdo_mysql mysqli
+
+# Enable ssl module
+RUN a2ensite server-ssl.conf && a2enmod ssl rewrite
